@@ -373,6 +373,7 @@ class Lobby {
 						<span>/HISTORY</span><br>
 						<i>Uptime: {$days}d. {$time}.</i><br>
 						<i>Version: {$version}</i><br>
+						<a href=\"https://github.com/mdaimda/carpbot\">Source</a><br>
 						";
 		$this->sendMessage($message);
 	}
