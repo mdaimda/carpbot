@@ -45,7 +45,7 @@ function sigHandler($signo)
 		$stack = json_encode($chat->stack ?? [],JSON_UNESCAPED_UNICODE);
 		fwrite($file, $stack);
 		fclose($file);
-		print_r("chat history writed to the local storage {$filename}\n");
+		print_r("chat history written to the local storage {$filename}\n");
 	} else { 
 		print_r("can't open file {$filename} for write\n");
 	}	
