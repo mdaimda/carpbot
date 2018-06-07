@@ -472,7 +472,7 @@ while(true) {
 				$obj->author_id =$message->author_id;
 				$chat->insert($lobby->chat_id,$obj);
 				print_r($message->author_name.": ".$message->msg."\n");
-				if (!$message->incoming) { 
+				if ($message->incoming) { 
 					$lobby->parseMessage($obj);
 				}
 				unset($obj);

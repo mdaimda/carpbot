@@ -30,5 +30,6 @@ For the more info read "man screen".
 ```
 $ screen -S carpbot
 $ cd ~/[bot_dir]
-$ php carpbot.php
+$ php carpbot.php "config.php"
 ``` 
+Where "config.php" is the absolute/relative path to the config file.
