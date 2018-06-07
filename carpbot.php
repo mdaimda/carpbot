@@ -22,18 +22,6 @@
  * 
  */
 
-define("BOT_VERSION", "0.55"); 
-define("RS_HOST", "http://127.0.0.1"); # retroshare web server's host
-define("RS_PORT", "9090"); # retroshare web server's host
-define("BOT_GXS_ID", "91c2af4320c9399e17cb01eb027982cf"); #show author in people tab > Identity ID
-define("MAX_DC_ATTEMPTS", 40); 
-define("HISTORY_MSG_COUNT", 120); 
-define("STACK_SIZE",1000);
-define("CYCLE_DELAY",5); #lower values is reducing the bot's reaction time, but increasing the CPU load
-define("SAVE_CHAT_HISTORY",false); #saves history to a local file
-define("SAVE_CHAT_HISTORY_FILENAME",'log/stack.json'); # if SAVE_CHAT_HISTORY is true; directory must be writable
-
-
 function sigHandler($signo) 
 { 
 	GLOBAL $chat;
@@ -286,7 +274,8 @@ class Lobby {
 			"/help" => "sendHelp",
 			"/history" => "sendHistory",
 			"/commits" => "sendCommits",
-			"/btc" => "sendBTC"
+			"/btc" => "sendBTC",
+			"/cc" => "sendCC"
 		];
 	}	
 	
@@ -368,6 +357,7 @@ class Lobby {
 		$version = BOT_VERSION;
 		$message = "<b>List of available commands: </b><br>
 						<span>/BTC </span><br>
+						<span>/CC</span><br>
 						<span>/COMMITS</span><br>
 						<span>/HELP</span><br>
 						<span>/HISTORY</span><br>
@@ -422,10 +412,34 @@ class Lobby {
 			$this->sendMessage("Unable to get BTC info");
 		}
 	}
-	
+
+	private function sendCC() 
+	{ 		
+		$response = Requests::webget('https://api.coinmarketcap.com/v2/ticker/?structure=array&limit=15');
+		$currencies = [0,1,5,3,11];
+		if ($response) { 
+			$array = json_decode($response); 
+			$message = "Currencies: <br>";
+			foreach ($currencies as $id) { 
+				$currency = $array->data[$id];
+				$message .= "[{$currency->symbol}: {$currency->quotes->USD->price} ({$currency->quotes->USD->percent_change_24h}%)]<br>";
+			}
+			$this->sendMessage($message);
+		} else { 
+			$this->sendMessage("Unable to get cryptocurrencies info");
+		}
+	}
+
 } 
 
-# ----------------------- COUNTER -------------------------------------------------- 
+# ----------------------- START --------------------------------
+
+if (file_exists($argv[1])) { 
+	require_once($argv[1]);
+} else { 
+	print_r("Can't open config file: {$argv[1]}\n");
+	exit();
+}
 
 $chat = new Chat();
 $chat->getLobbiesInfo();
@@ -458,7 +472,7 @@ while(true) {
 				$obj->author_id =$message->author_id;
 				$chat->insert($lobby->chat_id,$obj);
 				print_r($message->author_name.": ".$message->msg."\n");
-				if ($message->incoming) { 
+				if (!$message->incoming) { 
 					$lobby->parseMessage($obj);
 				}
 				unset($obj);
