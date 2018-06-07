@@ -1,11 +1,11 @@
 <?php 
 define("BOT_VERSION", "0.56"); 
 define("RS_HOST", "http://127.0.0.1"); # retroshare web server's host
-define("RS_PORT", "9090"); # retroshare web server's host
+define("RS_PORT", "9090"); # retroshare web server's port
 define("BOT_GXS_ID", "91c2af4320c9399e17cb01eb027982cf"); #show author in people tab > Identity ID
 define("MAX_DC_ATTEMPTS", 40); 
 define("HISTORY_MSG_COUNT", 120); 
 define("STACK_SIZE",1000);
-define("CYCLE_DELAY",5); #lower values is reducing the bot's reaction time, but increasing the CPU load
+define("CYCLE_DELAY",5); #lower values reduce bot's reaction time, but increase the CPU load
 define("SAVE_CHAT_HISTORY",false); #saves history to a local file
 define("SAVE_CHAT_HISTORY_FILENAME",'log/stack.json'); # if SAVE_CHAT_HISTORY is true; directory must be writable

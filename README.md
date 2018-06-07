@@ -17,7 +17,7 @@ Highly recomended to start retroshare node and carpbot in a screens:
 $ screen -S retroshare
 $ retroshare-nogui --webinterface 9090 -i 127.0.0.1 --http-allow-all
 ``` 
-For the more info read "man screen". 
+For more information read "man screen". 
 
 3) Change these constants in the "config.php":
 * RS_HOST
